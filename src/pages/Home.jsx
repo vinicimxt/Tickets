@@ -1,5 +1,3 @@
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import EventCard from '../components/EventCard';
 import { parseDateInfo } from '../utils/dateutils';
 

@@ -2,18 +2,54 @@ import { useState } from 'react';
 import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [mensagem, setMensagem] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (senha !== confirmarSenha) {
+      setMensagem("❌ As senhas não coincidem!");
+      return;
+    }
+
+    try {
+      const resposta = await fetch('http://localhost/Tickets/backend/cadastro.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, senha })
+      });
+
+
+       
+      const dados = await resposta.json();
+
+      if (dados.success) {
+        setMensagem("✅ Conta criada com sucesso!");
+        setNome('');
+        setEmail('');
+        setSenha('');
+        setConfirmarSenha('');
+      } else {
+        setMensagem("❌ Erro ao cadastrar: " + dados.error);
+      }
+    } catch (error) {
+      setMensagem("❌ Erro de conexão com o servidor.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-
       {/* Faixa com imagem */}
       <div className="relative h-48 w-full">
         <img
-          src="./dist/assets/bda.jpg" // <- Substitua pelo caminho correto
+          src="./dist/assets/bda.jpg"
           alt="Faixa de topo"
           className="object-cover w-full h-full"
         />
@@ -44,13 +80,15 @@ export default function Register() {
             <div className="flex-grow h-px bg-gray-600" />
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="text-sm font-medium">Nome *</label>
               <input
                 type="text"
                 placeholder="Digite seu nome"
                 className="w-full mt-1 p-2 rounded-md bg-[#1c1c24] text-white placeholder-gray-400 focus:outline-none"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
               />
             </div>
 
@@ -60,6 +98,8 @@ export default function Register() {
                 type="email"
                 placeholder="Digite seu e-mail"
                 className="w-full mt-1 p-2 rounded-md bg-[#1c1c24] text-white placeholder-gray-400 focus:outline-none"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -70,6 +110,8 @@ export default function Register() {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Digite sua senha"
                   className="w-full mt-1 p-2 rounded-md bg-[#1c1c24] text-white placeholder-gray-400 focus:outline-none"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
                 />
                 <span
                   onClick={() => setShowPassword(!showPassword)}
@@ -87,6 +129,8 @@ export default function Register() {
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirme sua senha"
                   className="w-full mt-1 p-2 rounded-md bg-[#1c1c24] text-white placeholder-gray-400 focus:outline-none"
+                  value={confirmarSenha}
+                  onChange={(e) => setConfirmarSenha(e.target.value)}
                 />
                 <span
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -102,10 +146,12 @@ export default function Register() {
               Aceito os <a href="#" className="underline">Termos de Uso & Política de Privacidade</a> para criar a conta
             </div>
 
-            <button className="w-full bg-[#00aaff] text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200">
+            <button type="submit" className="w-full bg-[#00aaff] text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200">
               Cadastrar
             </button>
           </form>
+
+          {mensagem && <p className="text-center text-sm mt-4 text-red-400">{mensagem}</p>}
 
           <div className="text-center text-sm mt-4 text-gray-400">
             Já possui uma conta?{' '}
@@ -113,7 +159,6 @@ export default function Register() {
               Entrar
             </Link>
           </div>
-
         </div>
       </div>
     </div>

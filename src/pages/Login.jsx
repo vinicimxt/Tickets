@@ -1,8 +1,51 @@
 import { useState } from 'react';
 import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const user = {
+      nome: 'vini',
+      email: 'vini@vini'
+    };
+
+    // Salvar no localStorage
+    localStorage.setItem('usuario', JSON.stringify(user));
+
+    // Redirecionar para a página de perfil
+    window.location.href = '/perfil';
+
+
+    try {
+      const res = await fetch("http://localhost/Tickets/backend/login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, senha })
+      });
+
+      const data = await res.json();
+
+      if (data.status === "ok") {
+        alert("Login realizado com sucesso!");
+        localStorage.setItem("usuario", JSON.stringify(data.nome));
+        // Aqui você pode redirecionar, por exemplo:
+        // window.location.href = "/home";
+      } else {
+        alert(data.mensagem);
+      }
+    } catch (err) {
+      alert("Erro ao tentar logar. Verifique a conexão com o servidor.");
+      console.error(err);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -14,7 +57,6 @@ export default function Login() {
           style={{ backgroundImage: "url('./dist/assets/bda.jpg')" }}
         ></div>
       </div>
-
 
       {/* Área de login abaixo da faixa */}
       <div className="flex-1 flex items-center justify-center bg-[#0d0d13]">
@@ -34,13 +76,15 @@ export default function Login() {
             <div className="flex-grow h-px bg-gray-600" />
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="text-white text-sm font-medium">E-mail *</label>
               <input
                 type="email"
                 placeholder="Digite seu e-mail"
                 className="w-full mt-1 p-2 rounded-md bg-[#1c1c24] text-white placeholder-gray-400 focus:outline-none"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -51,6 +95,8 @@ export default function Login() {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Digite sua senha"
                   className="w-full mt-1 p-2 rounded-md bg-[#1c1c24] text-white placeholder-gray-400 focus:outline-none"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
                 />
                 <span
                   onClick={() => setShowPassword(!showPassword)}
@@ -66,13 +112,13 @@ export default function Login() {
               </div>
             </div>
 
-            <button className="w-full bg-[#00aaff] text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200">
+            <button onClick={handleLogin} className="w-full bg-[#00aaff] text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200">
               Entrar
             </button>
           </form>
 
           <div className="mt-4 text-center text-sm text-gray-300">
-            Novo no Tickets? <a href="#" className="font-semibold hover:underline">Criar Conta</a><br />
+            Novo no Tickets? <Link to="/cadastro" className="font-semibold hover:underline" >Criar Conta</Link><br />
             Não lembra por qual e-mail comprou? <a href="#" className="font-semibold hover:underline">Recuperar conta</a>
           </div>
         </div>

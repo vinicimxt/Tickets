@@ -6,6 +6,7 @@ import Buscar from './pages/Search'
 import Navbar from './components/Navbar'
 import About from './pages/About'
 import Footer from './components/Footer'
+import Perfil from './pages/Perfil'
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/cadastro" element={<Register />} />
         <Route path="/buscar" element={<Buscar />} />
         <Route path="/sobre" element={<About />} />
+        <Route path="/perfil" element={<Perfil />} />
+
       </Routes>
       <Footer />
     </BrowserRouter>
