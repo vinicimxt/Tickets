@@ -7,22 +7,30 @@ import Navbar from './components/Navbar'
 import About from './pages/About'
 import Footer from './components/Footer'
 import Perfil from './pages/Perfil'
+import EditarPerfil from './pages/EditarPerfil'
+import { AuthProvider } from './components/AuthContext'
 
 function App() {
   return (
-    <BrowserRouter>
-    <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Register />} />
-        <Route path="/buscar" element={<Buscar />} />
-        <Route path="/sobre" element={<About />} />
-        <Route path="/perfil" element={<Perfil />} />
 
-      </Routes>
-      <Footer />
+    <BrowserRouter>
+      <AuthProvider>
+        <Navbar />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Register />} />
+          <Route path="/buscar" element={<Buscar />} />
+          <Route path="/sobre" element={<About />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/editarperfil" element={<EditarPerfil />} />
+        </Routes>
+
+        <Footer />
+      </AuthProvider>
     </BrowserRouter>
+
   )
 }
 

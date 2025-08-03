@@ -1,26 +1,21 @@
 import { useState } from 'react';
 import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../components/AuthContext';
+import { useContext } from 'react';
+
 
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const user = {
-      nome: 'vini',
-      email: 'vini@vini'
-    };
-
-    // Salvar no localStorage
-    localStorage.setItem('usuario', JSON.stringify(user));
-
-    // Redirecionar para a página de perfil
-    window.location.href = '/perfil';
-
 
     try {
       const res = await fetch("http://localhost/Tickets/backend/login.php", {
@@ -35,18 +30,19 @@ export default function Login() {
 
       if (data.status === "ok") {
         alert("Login realizado com sucesso!");
-        localStorage.setItem("usuario", JSON.stringify(data.nome));
-        // Aqui você pode redirecionar, por exemplo:
-        // window.location.href = "/home";
+        login({ nome: data.nome, email });
+        navigate("/perfil"); // ou use navigate("/perfil") se estiver com React Router
       } else {
-        alert(data.mensagem);
+        alert(data.mensagem); // Mensagem de erro do backend
       }
+
     } catch (err) {
       alert("Erro ao tentar logar. Verifique a conexão com o servidor.");
       console.error(err);
     }
   };
-
+  
+  
   return (
     <div className="min-h-screen flex flex-col">
       {/* Faixa com imagem no topo */}
@@ -112,7 +108,7 @@ export default function Login() {
               </div>
             </div>
 
-            <button onClick={handleLogin} className="w-full bg-[#00aaff] text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200">
+            <button type="submit" className="w-full bg-[#00aaff] text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200">
               Entrar
             </button>
           </form>

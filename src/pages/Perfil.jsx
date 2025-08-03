@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState(null);
@@ -25,13 +26,14 @@ export default function Perfil() {
       <div className="w-32 h-32 rounded-full bg-pink-700 flex items-center justify-center text-5xl font-bold border-4 border-fuchsia-500 shadow-lg">
         {usuario.nome.charAt(0).toUpperCase()}
       </div>
+      
 
       {/* Nome e email */}
       <h1 className="mt-4 text-2xl font-bold">{usuario.nome}</h1>
       <p className="text-gray-400 text-sm">{usuario.email}</p>
 
       {/* Editar perfil (placeholder) */}
-      <p className="text-blue-400 hover:underline cursor-pointer text-sm mt-1">Editar perfil ✏️</p>
+      <Link to="/EditarPerfil" className="text-blue-400 hover:underline cursor-pointer text-sm mt-1">Editar perfil ✏️</Link>
 
       {/* Botões de filtro */}
       <div className="flex gap-4 mt-6">
