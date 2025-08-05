@@ -20,7 +20,7 @@ export default function EditarPerfil() {
       });
       setEmailAntigo(dadosUsuario.email); // <- novo estado para manter o email original
     } else {
-      window.location.href = '/login';
+      window.location.href = './login';
     }
   }, []);
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../components/AuthContext';
+import { AuthContext } from "../../components/AuthContext";
 import { useContext } from 'react';
 
 
@@ -30,19 +30,23 @@ export default function Login() {
 
       if (data.status === "ok") {
         alert("Login realizado com sucesso!");
-        login({ nome: data.nome, email });
-        navigate("/perfil"); // ou use navigate("/perfil") se estiver com React Router
-      } else {
-        alert(data.mensagem); // Mensagem de erro do backend
+        login({ nome: data.nome, email, tipo: data.tipo });
+
+        if (data.tipo === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/perfil");
+        }
       }
+
 
     } catch (err) {
       alert("Erro ao tentar logar. Verifique a conexão com o servidor.");
       console.error(err);
     }
   };
-  
-  
+
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Faixa com imagem no topo */}

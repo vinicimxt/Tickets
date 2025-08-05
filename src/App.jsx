@@ -1,14 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import Login from './pages/Login'
-import Register from './pages/Register'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
 import Buscar from './pages/Search'
 import Navbar from './components/Navbar'
 import About from './pages/About'
 import Footer from './components/Footer'
-import Perfil from './pages/Perfil'
-import EditarPerfil from './pages/EditarPerfil'
+import Perfil from './pages/user/Perfil'
+import EditarPerfil from './pages/user/EditarPerfil'
 import { AuthProvider } from './components/AuthContext'
+import PrivateRouteAdmin from './components/PrivateRouteAdmin'
+import AdminDashboard from './pages/admin/Dashboard'; 
+
+
 
 function App() {
   return (
@@ -25,6 +29,12 @@ function App() {
           <Route path="/sobre" element={<About />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/editarperfil" element={<EditarPerfil />} />
+          <Route path="/admin/dashboard" element={
+            <PrivateRouteAdmin>
+              <AdminDashboard />
+            </PrivateRouteAdmin>
+          } />
+
         </Routes>
 
         <Footer />

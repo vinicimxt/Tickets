@@ -1,39 +1,61 @@
 <?php
-// Permite requisições de fora (React)
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json");
 
-// Conecta ao banco
-$conn = new mysqli("localhost", "root", "", "tickets"); // ajuste o nome do banco
+// Lê o corpo JSON
+$input = file_get_contents("php://input");
+$data = json_decode($input, true);
 
-// Verifica a conexão
-if ($conn->connect_error) {
-    die(json_encode(["status" => "error", "mensagem" => "Erro ao conectar ao banco."]));
+// Validação
+if (!$data || !isset($data["email"]) || !isset($data["senha"])) {
+    echo json_encode([
+        "status" => "erro",
+        "mensagem" => "Dados de login inválidos"
+    ]);
+    exit;
 }
-
-// Lê os dados JSON enviados
-$data = json_decode(file_get_contents("php://input"), true);
 
 $email = $data["email"];
 $senha = $data["senha"];
 
-// Verifica o usuário no banco
-$sql = "SELECT * FROM usuarios WHERE email = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($user = $result->fetch_assoc()) {
-    if (password_verify($senha, $user["senha"])) {
-        echo json_encode(["status" => "ok", "mensagem" => "Login realizado com sucesso!", "nome" => $user["nome"]]);
-    } else {
-        echo json_encode(["status" => "erro", "mensagem" => "Senha incorreta."]);
-    }
-} else {
-    echo json_encode(["status" => "erro", "mensagem" => "Usuário não encontrado."]);
+$conn = new mysqli("localhost", "root", "", "tickets");
+if ($conn->connect_error) {
+    echo json_encode([
+        "status" => "erro",
+        "mensagem" => "Erro na conexão com o banco"
+    ]);
+    exit;
 }
 
-$conn->close();
+$stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$user = $resultado->fetch_assoc();
+
+if (!$user) {
+    echo json_encode([
+        "status" => "erro",
+        "mensagem" => "Usuário não encontrado"
+    ]);
+    exit;
+}
+
+if (password_verify($senha, $user["senha"])) {
+    echo json_encode([
+        "status" => "ok",
+        "nome" => $user["nome"],
+        "email" => $user["email"],
+        "tipo" => $user["tipo"] ?? "cliente"
+    ]);
+} else {
+    echo json_encode([
+        "status" => "erro",
+        "mensagem" => "Senha incorreta"
+    ]);
+}
+
+
 ?>

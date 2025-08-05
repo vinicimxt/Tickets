@@ -9,13 +9,13 @@ export default function Perfil() {
     if (dados) {
       setUsuario(JSON.parse(dados));
     } else {
-      window.location.href = '/login';
+      window.location.href = './login';
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('usuario');
-    window.location.href = '/login';
+    window.location.href = './login';
   };
 
   if (!usuario) return null;

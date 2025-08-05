@@ -10,6 +10,8 @@ export default function Register() {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [mensagem, setMensagem] = useState('');
+  const [tipo, setTipo] = useState("user");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,11 +25,11 @@ export default function Register() {
       const resposta = await fetch('http://localhost/Tickets/backend/cadastro.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, email, senha })
+        body: JSON.stringify({ nome, email, senha, tipo })
       });
 
 
-       
+
       const dados = await resposta.json();
 
       if (dados.success) {
@@ -91,6 +93,19 @@ export default function Register() {
                 onChange={(e) => setNome(e.target.value)}
               />
             </div>
+
+            <div>
+              <label className="text-sm font-medium">Tipo de conta *</label>
+              <select
+                className="w-full mt-1 p-2 rounded-md bg-[#1c1c24] text-white focus:outline-none"
+                value={tipo}
+                onChange={(e) => setTipo(e.target.value)}
+              >
+                <option value="user">Usuário</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+
 
             <div>
               <label className="text-sm font-medium">E-mail *</label>

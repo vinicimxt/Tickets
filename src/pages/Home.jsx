@@ -6,11 +6,16 @@ function Home() {
 
   const eventos = [
     {
+      id: 1,
       image: "./dist/assets/bda.jpg",
       title: "BDA 9 Anos - O Futuro Em Seus Versos",
       location: "São Paulo",
       date: "26/07/2025 às 20:00",
-      organizer: "Batalha da Aldeia"
+      organizer: "Batalha da Aldeia",
+      ingressos: [
+        { tipo: "Pista", preco: 50, disponivel: 100 },
+        { tipo: "VIP", preco: 120, disponivel: 30 }
+      ]
     },
     {
       image: "./dist/assets/sevenx.jpg",
@@ -37,7 +42,7 @@ function Home() {
   ];
   return (
     <div className="flex flex-col min-h-screen bg-[#0d0d13]">
-      
+
 
       <main className="flex-grow p-8 bg-[#0d0d13]">
         <div className="bg-[#16161d] h-[50px] ">
@@ -130,7 +135,7 @@ function Home() {
 
       </main>
 
-  
+
     </div>
   );
 }

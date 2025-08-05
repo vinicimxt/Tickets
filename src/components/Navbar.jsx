@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from './AuthContext'; // ajuste o caminho
+import { AuthContext } from './AuthContext';
 
 function Navbar() {
   const { usuario, logout } = useContext(AuthContext);
@@ -9,6 +9,13 @@ function Navbar() {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const getUserLink = () => {
+    if (usuario?.tipo === 'admin') {
+      return '/admin/dashboard';
+    }
+    return '/perfil';
   };
 
   return (
@@ -25,7 +32,7 @@ function Navbar() {
       <div className="text-white flex items-center gap-4">
         {usuario ? (
           <div className="flex items-center gap-2">
-            <Link to="/perfil">
+            <Link to={getUserLink()}>
               <div className="w-8 h-8 md:w-10 md:h-10 bg-pink-700 text-white rounded-full flex items-center justify-center font-semibold text-lg md:text-xl">
                 {usuario.nome?.charAt(0).toUpperCase() ?? '?'}
               </div>
