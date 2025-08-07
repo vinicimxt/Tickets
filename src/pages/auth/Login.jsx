@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate , Navigate} from 'react-router-dom';
 import { AuthContext } from "../../components/AuthContext";
 import { useContext } from 'react';
 
@@ -11,9 +11,11 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const {usuario, login } = useContext(AuthContext);
 
-
+if (usuario) {
+    return <Navigate to={usuario.tipo === "admin" ? "/admin/dashboard" : "/perfil"} />;
+  }
   const handleLogin = async (e) => {
     e.preventDefault();
 

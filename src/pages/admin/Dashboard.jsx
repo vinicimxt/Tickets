@@ -21,11 +21,14 @@ export default function Dashboard() {
                         <h2 className="text-xl font-semibold mb-2">📊 Relatórios de vendas</h2>
                         <p className="text-gray-400 text-sm">Acompanhe estatísticas e vendas de ingressos.</p>
                     </div>
+                   
+                    <Link to="/admin/cadastrar-evento">
+                        <div className="bg-[#1a1a25] p-6 rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-200 cursor-pointer">
+                            <h2 className="text-xl font-semibold mb-2">➕ Criar novo evento</h2>
+                            <p className="text-gray-400 text-sm">Cadastre eventos com nome, local, tipo e capa.</p>
+                        </div>
+                    </Link>
 
-                    <div className="bg-[#1a1a25] p-6 rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-200 cursor-pointer">
-                        <h2 className="text-xl font-semibold mb-2">➕ Criar novo evento</h2>
-                        <p className="text-gray-400 text-sm">Cadastre eventos com nome, local, tipo e capa.</p>
-                    </div>
 
                     <div className="bg-[#1a1a25] p-6 rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-200 cursor-pointer">
                         <Link to='/editarperfil'><h2 className="text-xl font-semibold mb-2">Editar perfil</h2>
