@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 require_once 'conexao.php';;
 
-$sql = "SELECT * FROM eventos ORDER BY date ASC";
+$sql = "SELECT * FROM eventos ORDER BY data ASC";
 $result = $conn->query($sql);
 
 $eventos = [];

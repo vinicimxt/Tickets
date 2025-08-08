@@ -2,12 +2,13 @@ import { useState } from "react";
 
 function CadastroEvento() {
   const [evento, setEvento] = useState({
-    title: "",
-    location: "",
-    date: "",
-    organizer: "",
-    image: "",
+    titulo: "",
+    local: "",
+    data: "",
+    organizador: "",
+    imagem: "",
   });
+
 
   const handleChange = (e) => {
     setEvento({ ...evento, [e.target.name]: e.target.value });
@@ -26,7 +27,7 @@ function CadastroEvento() {
       const data = await response.json();
       if (data.success) {
         alert("Evento cadastrado com sucesso!");
-        setEvento({ title: "", location: "", date: "", organizer: "", image: "" });
+        setEvento({ titulo: "", local: "", data: "", organizador: "", imagem: "" });
       } else {
         alert("Erro ao cadastrar evento.");
       }
@@ -40,13 +41,14 @@ function CadastroEvento() {
     <div className="max-w-2xl mx-auto p-8 bg-[#16161d] text-white rounded shadow">
       <h2 className="text-2xl font-bold mb-6">Cadastrar Novo Evento</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input type="text" name="title" value={evento.title} onChange={handleChange} placeholder="Título do evento" required className="p-2 rounded text-white" />
-        <input type="text" name="location" value={evento.location} onChange={handleChange} placeholder="Local" required className="p-2 rounded text-white" />
-        <input type="datetime-local" name="date" value={evento.date} onChange={handleChange} required className="p-2 rounded text-white" />
-        <input type="text" name="organizer" value={evento.organizer} onChange={handleChange} placeholder="Organizador" required className="p-2 rounded text-white" />
-        <input type="text" name="image" value={evento.image} onChange={handleChange} placeholder="URL da imagem" required className="p-2 rounded text-white" />
+        <input type="text" name="titulo" value={evento.titulo} onChange={handleChange} placeholder="Título do evento" required className="p-2 rounded text-white" />
+        <input type="text" name="local" value={evento.local} onChange={handleChange} placeholder="Local" required className="p-2 rounded text-white" />
+        <input type="datetime-local" name="data" value={evento.data} onChange={handleChange} required className="p-2 rounded text-white" />
+        <input type="text" name="organizador" value={evento.organizador} onChange={handleChange} placeholder="Organizador" required className="p-2 rounded text-white" />
+        <input type="text" name="imagem" value={evento.imagem} onChange={handleChange} placeholder="URL da imagem" required className="p-2 rounded text-white" />
         <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Cadastrar</button>
       </form>
+
     </div>
   );
 }

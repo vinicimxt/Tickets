@@ -1,7 +1,7 @@
 import { FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-function EventCard({ id, image, title, location, date, organizer, day, month, weekday }) {
+function EventCard({ id, imagem, titulo, local, data, organizador, day, month, weekday }) {
   return (
     <div className="relative bg-[#16161d] rounded-xl overflow-hidden  
                     w-full sm:w-[320px] md:w-[360px] lg:w-[420px] 
@@ -21,22 +21,22 @@ function EventCard({ id, image, title, location, date, organizer, day, month, we
 
       {/* Imagem */}
       <div className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[220px] overflow-hidden">
-        <img src={image} alt={title} className="w-full h-full object-cover" />
+        <img src={imagem} alt={titulo} className="w-full h-full object-cover" />
       </div>
 
       {/* Conteúdo */}
       <div className="p-4 text-white bg-[#16161d]">
-        <h2 className="text-xl font-bold mb-1">{title}</h2>
-        <p className="text-sm text-gray-400 mb-3">{organizer}</p>
+        <h2 className="text-xl font-bold mb-1">{titulo}</h2>
+        <p className="text-sm text-gray-400 mb-3">{organizador}</p>
 
         <div className="flex items-center text-sm text-blue-400 mb-1">
           <FaCalendarAlt className="mr-2" />
-          <span>{date}</span>
+          <span>{data}</span>
         </div>
 
         <div className="flex items-center text-sm text-blue-400">
           <FaMapMarkerAlt className="mr-2" />
-          <span>{location}</span>
+          <span>{local}</span>
         </div>
 
         {/* Botão para detalhes */}

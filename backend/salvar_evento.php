@@ -13,15 +13,15 @@ require_once 'conexao.php'; // arquivo com conexão
 $data = json_decode(file_get_contents("php://input"), true);
 
 if ($data) {
-    $title = $data['title'];
-    $location = $data['location'];
-    $date = $data['date'];
-    $organizer = $data['organizer'];
-    $image = $data['image'];
+    $titulo = $data['title'];
+    $local = $data['location'];
+    $data = $data['date'];
+    $organizador = $data['organizer'];
+    $imagem = $data['image'];
 
     $stmt = $conn->prepare("INSERT INTO eventos (titulo, local, data, organizador, imagem) VALUES (?, ?, ?, ?, ?)");
 
-    $stmt->bind_param("sssss", $title, $location, $date, $organizer, $image);
+    $stmt->bind_param("sssss", $titulo, $local, $data, $organizador, $imagem);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);
