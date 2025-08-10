@@ -1,0 +1,1 @@
+{"id":2,"titulo":"SOU EUUUUU","local":"BUEIRO","data":"2025-08-09 03:11:00","imagem":"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Twitch_0.jpg","organizador":"Riot games","criado_em":"2025-08-09 01:11:47"}

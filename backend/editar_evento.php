@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -8,19 +8,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once 'conexao.php'; 
+require_once 'conexao.php';
+
+
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if ($data) {
+if (
+    $data && 
+    isset($data['id']) && 
+    isset($data['titulo']) && 
+    isset($data['local']) && 
+    isset($data['data']) && 
+    isset($data['organizador']) && 
+    isset($data['imagem'])
+) {
+    $id = intval($data['id']);
     $titulo = $data['titulo'];
     $local = $data['local'];
     $data_evento = $data['data'];
     $organizador = $data['organizador'];
     $imagem = $data['imagem'];
 
-    $stmt = $conn->prepare("INSERT INTO eventos (titulo, local, data, organizador, imagem) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $titulo, $local, $data_evento, $organizador, $imagem);
+    $stmt = $conn->prepare("UPDATE eventos SET titulo = ?, local = ?, data = ?, organizador = ?, imagem = ? WHERE id = ?");
+    $stmt->bind_param("sssssi", $titulo, $local, $data_evento, $organizador, $imagem, $id);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);

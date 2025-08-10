@@ -1,25 +1,42 @@
-// src/pages/EventoDetalhes.jsx
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-function EventoDetalhes({ eventos }) {
+function EventoDetalhes() {
   const { id } = useParams();
-  const evento = eventos.find(e => e.id === parseInt(id));
+  const [evento, setEvento] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!evento) {
-    return <div className="text-white p-8">Evento não encontrado</div>;
-  }
+  useEffect(() => {
+    fetch(`http://localhost/Tickets/backend/buscar_evento.php?id=${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setEvento(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        alert("Erro ao carregar evento");
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <p className="text-white p-8">Carregando...</p>;
+  if (!evento || !evento.id) return <p className="text-white p-8">Evento não encontrado.</p>;
 
   return (
     <div className="text-white p-8 min-h-screen bg-[#0d0d13]">
-      <img src={evento.image} alt={evento.title} className="w-full max-w-3xl mx-auto rounded-lg mb-6" />
-      
-      <h1 className="text-3xl font-bold">{evento.title}</h1>
-      <p className="text-gray-400">{evento.organizer}</p>
-      <p className="mt-2 text-blue-400">{evento.location} - {evento.date}</p>
+      <img
+        src={evento.imagem || evento.image}
+        alt={evento.titulo || evento.title}
+        className="w-full max-w-3xl mx-auto rounded-lg mb-6"
+      />
+
+      <h1 className="text-3xl font-bold">{evento.titulo || evento.title}</h1>
+      <p className="text-gray-400">{evento.organizador || evento.organizer}</p>
+      <p className="mt-2 text-blue-400">{evento.local || evento.location} - {evento.data || evento.date}</p>
 
       <h2 className="mt-6 text-xl font-semibold">Ingressos</h2>
       <div className="mt-4 space-y-4">
-        {evento.ingressos?.map((ingresso, idx) => (
+        {(evento.ingressos || []).map((ingresso, idx) => (
           <div key={idx} className="flex justify-between bg-[#1e1e2d] p-4 rounded">
             <span>{ingresso.tipo}</span>
             <span>R$ {ingresso.preco}</span>

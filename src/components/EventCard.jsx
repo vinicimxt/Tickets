@@ -3,46 +3,47 @@ import { Link } from 'react-router-dom';
 
 function EventCard({ id, imagem, titulo, local, data, organizador, day, month, weekday }) {
   return (
-    <div className="relative bg-[#16161d] rounded-xl overflow-hidden  
-                    w-full sm:w-[320px] md:w-[360px] lg:w-[420px] 
-                    h-[440px] md:h-[460px] lg:h-[480px]
-                    hover:scale-105 transition-transform ">
-
-      {/* Badge de data */}
-      <div className="absolute top-3 left-3 bg-blue-900 text-white text-center rounded-md shadow-lg z-10">
-        <div className="bg-[#0d0d13] px-2 py-1 text-xs font-bold rounded-t-md">
-          {weekday?.toUpperCase() || 'SAB'}
-        </div>
-        <div className="px-2 py-1 flex flex-col items-center">
-          <div className="text-xl font-extrabold leading-none">{day || '06'}</div>
-          <div className="text-[10px] uppercase font-semibold">{month || 'SET'}</div>
-        </div>
-      </div>
+    <div className="group relative flex flex-col bg-[#1c1c28] rounded-xl overflow-hidden 
+                    shadow-lg hover:shadow-2xl transition-all duration-300 
+                    hover:-translate-y-1 w-full sm:w-[320px] md:w-[360px] lg:w-[400px]">
 
       {/* Imagem */}
-      <div className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[220px] overflow-hidden">
-        <img src={imagem} alt={titulo} className="w-full h-full object-cover" />
+      <div className="relative h-48 overflow-hidden">
+        <img
+          src={imagem}
+          alt={titulo}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+
+        {/* Badge de data no canto */}
+        <div className="absolute bottom-3 left-3 bg-[#0d0d13] text-white rounded-lg shadow-md p-2 text-center">
+          <div className="text-xs font-semibold text-gray-300">{weekday?.toUpperCase() || 'SAB'}</div>
+          <div className="text-2xl font-bold">{day || '06'}</div>
+          <div className="text-[10px] uppercase font-semibold text-gray-400">{month || 'SET'}</div>
+        </div>
       </div>
 
       {/* Conteúdo */}
-      <div className="p-4 text-white bg-[#16161d]">
-        <h2 className="text-xl font-bold mb-1">{titulo}</h2>
+      <div className="flex flex-col flex-1 p-4">
+        <h2 className="text-lg font-bold text-white mb-1 line-clamp-2">{titulo}</h2>
         <p className="text-sm text-gray-400 mb-3">{organizador}</p>
 
-        <div className="flex items-center text-sm text-blue-400 mb-1">
-          <FaCalendarAlt className="mr-2" />
+        <div className="flex items-center text-sm text-gray-300 mb-1">
+          <FaCalendarAlt className="mr-2 text-blue-400" />
           <span>{data}</span>
         </div>
 
-        <div className="flex items-center text-sm text-blue-400">
-          <FaMapMarkerAlt className="mr-2" />
+        <div className="flex items-center text-sm text-gray-300">
+          <FaMapMarkerAlt className="mr-2 text-blue-400" />
           <span>{local}</span>
         </div>
 
-        {/* Botão para detalhes */}
-        <div className="mt-4">
+        {/* Botão */}
+        <div className="mt-auto pt-4">
           <Link to={`/evento/${id}`}>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded w-full">
+            <button className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 
+                               hover:from-purple-500 hover:to-purple-700 
+                               text-white font-semibold py-2 px-4 rounded-lg w-full transition-all">
               Ver mais
             </button>
           </Link>

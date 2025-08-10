@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 function CadastroEvento() {
   const [evento, setEvento] = useState({
     titulo: "",
@@ -48,6 +49,7 @@ function CadastroEvento() {
         <input type="text" name="imagem" value={evento.imagem} onChange={handleChange} placeholder="URL da imagem" required className="p-2 rounded text-white" />
         <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Cadastrar</button>
       </form>
+
 
     </div>
   );

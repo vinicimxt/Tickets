@@ -14,8 +14,8 @@ import EventoDetalhes from './pages/EventoDetalhes';
 import CadastroEvento from './pages/admin/CadastroEvento';
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from './components/AuthContext';
-
-
+import GerenciarEventos from './pages/admin/GerenciarEventos'
+import EditarEvento from './pages/admin/EditarEvento'
 
 function App() {
   const [eventos, setEventos] = useState([]);
@@ -47,7 +47,8 @@ function App() {
           </PrivateRouteAdmin>
         } />
         <Route path="/evento/:id" element={<EventoDetalhes />} />
-
+        <Route path="/admin/GerenciarEvento" element={<GerenciarEventos />} />
+        <Route path="/admin/EditarEvento/:id" element={<EditarEvento />} />
         <Route
           path="/admin/cadastrar-evento"
           element={usuario?.tipo === 'admin' ? <CadastroEvento /> : <Navigate to="/login" />}

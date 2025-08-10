@@ -1,278 +1,198 @@
-function Sobre() {
+
+import FeatureCard from "../components/FeaturesCard";
+
+import aboutMainSlider from '../../dist/assets/images/about-main-slider.webp';
+import purpleShadow from '../../dist/assets/images/purple-shadow-about.webp';
+import header from '../../dist/assets/images/header-about.webp';
+import marketingIcon from '../../dist/assets/images/marketing-icon.webp';
+import newEnvIcon from '../../dist/assets/images/new-env-icon.webp';
+import techIcon from '../../dist/assets/images/tech-icon.webp';
+import bgLines from '../../dist/assets/images/background-shadow-about.png';
+import bgGrain from '../../dist/assets/images/main-background-home.jpg';
+import ruleExample from '../../dist/assets/images/rule-example.webp';
+import cardsExample from '../../dist/assets/images/cards-example.webp';
+import purpleAngel from '../../dist/assets/images/purple-angel.webp';
+
+
+
+import { CodeXml, WalletCards, Ticket, Camera, Percent, HandCoins } from "lucide-react";
+
+export default function Sobre() {
+  const features = [
+    {
+      title: 'Venda mais',
+      subtitle: 'Marketing',
+      description: 'Potencialize as suas ações de marketing automatizando processos na venda de ingressos',
+      icon: marketingIcon,
+    },
+    {
+      title: 'Tech',
+      subtitle: 'Atendimento',
+      description: 'Prioridade no atendimento para personalização de novas funcionalidades e suporte 24/7',
+      icon: techIcon,
+    },
+    {
+      title: 'Ambiente',
+      subtitle: 'Novas Soluções',
+      description: 'Uma empresa focada em desenvolvimento para o cliente. Sempre buscando novas soluções',
+      icon: newEnvIcon,
+    }
+  ];
+
+  const icons = {
+    codeXml: <CodeXml className="w-6 h-6 text-[#ab71f4]" />,
+    wallet: <WalletCards className="w-6 h-6 text-[#ab71f4]" />,
+    ticket: <Ticket className="w-6 h-6 text-[#ab71f4]" />,
+    scan: <Camera className="w-6 h-6 text-[#ab71f4]" />,
+    securitySale: <Percent className="w-6 h-6 text-[#ab71f4]" />,
+    money: <HandCoins className="w-6 h-6 text-[#ab71f4]" />,
+  };
+
+  const featuresList = [
+    { title: 'LOTE', desc: 'Virada de lote automática', icon: 'ticket' },
+    { title: 'CARTEIRAS DIGITAS', desc: 'Envio automático para carteiras digitais', icon: 'wallet' },
+    { title: 'SCAN', desc: 'Sistema de validação de ingressos', icon: 'scan' },
+    { title: 'ADIANTAMENTO', desc: 'Personalizado por evento', icon: 'money' },
+    { title: 'INTELIGÊNCIA ARTIFICIAL', desc: 'Integração com IA', icon: 'codeXml', soon: true },
+    { title: 'REVENDA', desc: 'Revenda os ingressos com segurança', icon: 'securitySale', soon: true },
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#0d0d13]">
-      {/* Conteúdo principal */}
-      <main className="flex-grow p-8 ">
-        <section className="bg-[#1b1929] text-white py-24 px-8">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
-            <div className="md:w-1/2 mb-12 md:mb-0">
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
-                Tecnologia em Gestão<br />
-                & Controle de <span className="text-purple-400">Eventos</span>
-              </h1>
-              <p className="text-lg text-gray-300 mb-6">
-                Se diferencie no mercado de eventos. Tenha o melhor atendimento e atenda o seu modelo de evento com a nossa tecnologia.
-              </p>
-              <button className="bg-purple-500 hover:bg-purple-600 transition-colors text-white font-semibold py-3 px-6 rounded-xl">
-                Entrar em Contato
-              </button>
-            </div>
+    <div className='flex min-h-screen flex-col bg-[#1c1c28] relative'>
+    
+      <main className='bg-[#1c1c28] text-white flex flex-col flex-1 gap-14 md:gap-12 relative'>
+        <div className="absolute inset-0 pointer-events-none -z-10">
+          <img src={header} alt="Fundo" className="w-full h-full object-cover" />
+        </div>
+        <div className="relative max-w-4xl text-center z-10 mx-auto mt-12 px-4 md:mt-16">
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">
+            Tecnologia em Gestão <br />
+            & Controle de <span className="bg-gradient-to-r from-purple-300 via-purple-500 to-purple-600 bg-clip-text text-transparent">Eventos</span>
+          </h1>
+          <p className="text-gray-400 mb-8 max-w-xl mx-auto text-base md:text-lg">
+            Se diferencie no mercado de eventos. Tenha o melhor atendimento e atenda o seu modelo de evento com a nossa tecnologia.
+          </p>
+          <button className="bg-purple-500 hover:bg-purple-600 font-bold text-purple-900 hover:text-white py-3 px-6 rounded-lg transition cursor-pointer">
+            Entrar em Contato
+          </button>
+        </div>
+        <div className="relative mt-10 md:mt-16 max-w-3xl mx-auto w-full z-10 px-4">
+          <img
+            src={aboutMainSlider}
+            alt="Tela do sistema"
+            className="w-full rounded-xl shadow-lg relative z-20"
+          />
+          <img
+            src={purpleShadow}
+            alt="Sombra Roxa"
+            className="absolute -top-8 left-20 md:left-80 w-3/4 md:w-full h-auto -z-10 opacity-70"
+            style={{ transform: 'scale(1.05)' }}
+          />
+        </div>
 
-            <div className="md:w-1/2 flex justify-center">
-              <img
-                src="./dist/assets/bda.jpg"
-                alt="Mockup do sistema de controle de eventos"
-                className="rounded-2xl shadow-xl w-full max-w-xl"
+        <section
+          className="relative mt-16 md:mt-20 px-4 md:px-20 py-10 bg-no-repeat bg-center bg-cover"
+          style={{ backgroundImage: `url(${bgLines})` }}
+        >
+          <h2 className="text-2xl md:text-5xl font-bold mb-4">
+            <span className="text-white font-extrabold">Inovação</span>{" "}
+            <span className="text-gray-400 text-sm md:text-base">//</span>
+          </h2>
+          <p className="text-gray-400 font-semibold text-base md:text-lg max-w-3xl">
+            União de inovação e tecnologia no mercado de eventos. Não tenha
+            limitações para as suas criações. <br /> Automatize processos e obtenha
+            resultados especiais.
+          </p>
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map(({ title, subtitle, description, icon }) => (
+              <FeatureCard
+                key={title}
+                title={title}
+                subtitle={subtitle}
+                description={description}
+                icon={icon}
               />
+            ))}
+          </div>
+        </section>
+
+        <section className="relative text-white py-20 px-4 md:px-20 space-y-12 md:space-y-24" style={{ backgroundImage: `url(${bgGrain})` }}>
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent pointer-events-none z-0"></div>
+
+          <div className="relative z-10 pt-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <div>
+              <img src={ruleExample} alt="Regras" className="w-full h-auto rounded-lg" />
+            </div>
+            <div>
+              <span className="text-yellow-500 font-extrabold uppercase text-lg md:text-xl">O SEU EVENTO</span>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4">Customização</h2>
+              <p className="text-gray-400 leading-relaxed text-base md:text-lg">
+                Não adapte o seu evento para a plataforma. A gente se adapta para a sua necessidade.
+                Liberdade para customização no processo de venda.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative z-10 pt-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <div>
+              <span className="text-purple-500 font-extrabold uppercase text-lg md:text-xl">VENDAS</span>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4">Plataforma Completa</h2>
+              <p className="text-gray-400 leading-relaxed text-base md:text-lg">
+                Todas as ferramentas para criação e venda dos ingressos do seu evento. <br />
+                Fluxo Completo da criação ao recebimento.
+              </p>
+            </div>
+            <div>
+              <img src={cardsExample} alt="Cards" className="w-full h-auto rounded-lg" />
             </div>
           </div>
         </section>
 
+        <section className="text-white py-20 px-4 md:px-20">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-6">
+            O <span className="bg-gradient-to-r from-purple-300 via-purple-500 to-purple-600 bg-clip-text text-transparent">Access</span> <span className="text-gray-400">//</span>
+          </h2>
+          <p className="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+            Todas as nossas ferramentas atuais e futuras planejadas.
+          </p>
 
-        <section className="bg-[#1b1929] text-white py-20 px-6 md:px-16">
-          <div className="max-w-7xl mx-auto text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Inovação <span className="text-purple-400">//</span>
-            </h2>
-            <p className="text-lg text-gray-300">
-              União de inovação e tecnologia no mercado de eventos. Não tenha limitações para as suas criações.
-              <br />
-              Automatize processos e obtenha resultados especiais.
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {featuresList.map((item, i) => (
+              <div key={i} className="relative bg-black rounded-2xl p-6 flex items-center gap-4 transition duration-300 hover:-translate-y-2 hover:shadow-lg">
+                {item.soon && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 opacity-50 bg-purple-700 text-xs px-3 py-1 rounded-full uppercase font-extrabold text-purple-300">
+                    Em breve
+                  </span>
+                )}
+                <div className="bg-gray-900 p-3 rounded-full text-lg">{icons[item.icon]}</div>
+                <div>
+                  <h3 className="font-bold text-lg md:text-xl">{item.title}</h3>
+                  <p className="text-gray-400 text-sm md:text-base">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="relative flex flex-col items-center justify-center min-h-screen bg-black overflow-hidden px-4 md:px-0">
+          <img src={purpleAngel} alt="Anjos" className="absolute bottom-0 left-0 w-40 md:w-auto" />
+
+          <div className="relative z-10 max-w-xl ml-auto mr-0 md:mr-20 text-white text-center md:text-left">
+            <h2 className="text-3xl md:text-5xl font-bold">Aproveite os benefícios</h2>
+            <p className="mt-4 text-gray-300 text-base md:text-lg">
+              O Access está formando a sua estrutura. Estamos oferecendo parcerias com descontos e implementações gratuitas. Além de termos um longo roadmap e foco nas dores do usuário.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {/* Card 1 */}
-            <div className="bg-black rounded-2xl p-8 flex flex-col items-center text-center shadow-lg">
-              <img src="/icons/marketing.svg" alt="Marketing" className="mb-6 h-12" />
-              <span className="text-purple-400 font-bold uppercase tracking-widest text-sm">Venda Mais</span>
-              <h3 className="text-2xl font-bold mb-2">Marketing</h3>
-              <p className="text-gray-400">
-                Potencialize as suas ações de marketing automatizando processos na venda de ingressos
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-black rounded-2xl p-8 flex flex-col items-center text-center shadow-lg">
-              <img src="/icons/atendimento.svg" alt="Atendimento" className="mb-6 h-12" />
-              <span className="text-purple-400 font-bold uppercase tracking-widest text-sm">Tech</span>
-              <h3 className="text-2xl font-bold mb-2">Atendimento</h3>
-              <p className="text-gray-400">
-                Prioridade no atendimento para personalização de novas funcionalidades e suporte 24/7
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-black rounded-2xl p-8 flex flex-col items-center text-center shadow-lg">
-              <img src="/icons/solucoes.svg" alt="Soluções" className="mb-6 h-12" />
-              <span className="text-purple-400 font-bold uppercase tracking-widest text-sm">Ambiente</span>
-              <h3 className="text-2xl font-bold mb-2">Novas Soluções</h3>
-              <p className="text-gray-400">
-                Uma empresa focada em desenvolvimento para o cliente. Sempre buscando novas soluções
-              </p>
-            </div>
+            <button className="mt-6 px-6 py-3 bg-gray-800 rounded-lg font-bold transition duration-300 hover:-translate-y-2 hover:shadow-lg cursor-pointer">
+              Entrar em Contato
+            </button>
           </div>
         </section>
-
-
-        <section className="bg-[#0d0d13] text-white py-24 px-6 md:px-20">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-16">
-
-            {/* Card visual lado esquerdo */}
-            <div className="relative w-full md:w-1/2">
-              {/* Card preto */}
-              <div className="bg-black rounded-2xl p-6 w-full max-w-sm shadow-lg">
-                <label className="block text-white text-sm font-medium mb-2">
-                  Nome Completo<span className="text-red-500">*</span>
-                </label>
-                <div className="flex items-center bg-[#1e1e2e] text-white px-4 py-3 rounded-md mb-4">
-                  <img src="/imgs/avatar-john.png" alt="Avatar" className="w-8 h-8 rounded-full mr-3" />
-                  <span className="text-sm font-medium">John Doe</span>
-                </div>
-                <button className="w-full bg-gray-600 text-white py-2 px-4 rounded-md mb-2 cursor-not-allowed opacity-60">
-                  Continuar
-                </button>
-                <p className="text-red-400 text-sm text-center mt-2">
-                  Você não pode comprar ingressos de Sócio
-                </p>
-              </div>
-
-
-            </div>
-
-            {/* Texto lado direito */}
-            <div className="w-full md:w-1/2 text-left">
-              <h3 className="text-sm font-bold text-yellow-500 uppercase mb-2">O SEU EVENTO</h3>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Customização</h2>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Não adapte o seu evento para a plataforma. A gente se adapta para a sua necessidade. Liberdade para customização no processo de venda.
-              </p>
-            </div>
-          </div>
-        </section>
-        <section className="bg-[#0d0d13] text-white py-20 px-6 md:px-20">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-
-            {/* Texto da Plataforma */}
-            <div className="max-w-xl">
-              <h3 className="text-sm font-bold text-purple-400 uppercase">Vendas</h3>
-              <h2 className="text-4xl font-extrabold mb-4">Plataforma Completa</h2>
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                Todas as ferramentas para criação e venda dos ingressos do seu evento.
-                Fluxo completo da criação ao recebimento
-              </p>
-            </div>
-
-            {/* Cards de Dados */}
-            <div className="flex flex-col gap-4">
-              <div className="flex gap-4">
-                <div className="bg-black rounded-lg p-4 text-center min-w-[120px]">
-                  <h4 className="text-sm text-gray-400">Vendas Totais</h4>
-                  <p className="text-xl font-bold">R$60.000</p>
-                </div>
-                <div className="bg-black rounded-lg p-4 text-center min-w-[100px]">
-                  <h4 className="text-sm text-gray-400">Usuários</h4>
-                  <p className="text-xl font-bold">780</p>
-                </div>
-                <div className="bg-black rounded-lg p-4 text-center min-w-[100px]">
-                  <h4 className="text-sm text-gray-400">Ingressos</h4>
-                  <p className="text-xl font-bold">780/800</p>
-                </div>
-              </div>
-
-              {/* Roles / Cargos */}
-              <div className="flex gap-4 mt-4">
-                <span className="bg-yellow-800 text-white text-sm px-3 py-1 rounded-full">🔰 Owner</span>
-                <span className="bg-blue-800 text-white text-sm px-3 py-1 rounded-full">🔰 Admin</span>
-                <span className="bg-purple-800 text-white text-sm px-3 py-1 rounded-full">🔰 Staff</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        {/* Tecnologia em órbita com texto ao lado */}
-        <section className="bg-[#0d0d13] text-white py-24 px-6 md:px-20">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-            {/* Ícones orbitais */}
-            <div className="relative w-[300px] h-[300px] mx-auto md:mx-0">
-              <div className="absolute inset-0 border border-blue-500/20 rounded-full animate-spin-slow"></div>
-
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                <img src="" className="w-16 h-16" />
-              </div>
-
-              <div className="absolute inset-0 animate-spin-slow">
-                <img src="./dist/assets/icons/aws.svg" className="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-10" />
-                <img src="./dist/assets/icons/react.svg" className="absolute bottom-0 left-1/2 -translate-x-1/2 w-10 h-10" />
-                <img src="./dist/assets/icons/nextjs.svg" className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10" />
-                <img src="./dist/assets/icons/vite.svg" className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10" />
-              </div>
-            </div>
-
-            {/* Texto Tech */}
-            <div className="text-left">
-              <h3 className="text-sm font-bold text-sky-500 uppercase mb-2">Tech</h3>
-              <h2 className="text-4xl font-extrabold mb-4">Tecnologia</h2>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Foco em tecnologia – Desenvolvimento acelerado de novas ferramentas & robustez tecnológica de infraestrutura
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#161622] py-16 px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white">
-              O Meaple <span className="text-gray-400">//</span>
-            </h2>
-            <p className="text-gray-400 mt-2">
-              Todas as nossas ferramentas atuais e futuras planejadas.
-            </p>
-          </div>
-
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Lote */}
-            <div className="bg-black rounded-xl p-6 flex items-center gap-4">
-              <div className="bg-purple-900 p-3 rounded-full">
-                <span className="text-white text-xl">🎟️</span>
-              </div>
-              <div>
-                <h3 className="text-white font-bold text-lg">LOTE</h3>
-                <p className="text-gray-400 text-sm">Virada de lote automática</p>
-              </div>
-            </div>
-
-            {/* WhatsApp */}
-            <div className="bg-black rounded-xl p-6 flex items-center gap-4">
-              <div className="bg-purple-900 p-3 rounded-full">
-                <span className="text-white text-xl">💬</span>
-              </div>
-              <div>
-                <h3 className="text-white font-bold text-lg">WHATSAPP</h3>
-                <p className="text-gray-400 text-sm">Envio de ingressos via WhatsApp</p>
-              </div>
-            </div>
-
-            {/* Scan */}
-            <div className="bg-black rounded-xl p-6 flex items-center gap-4">
-              <div className="bg-purple-900 p-3 rounded-full">
-                <span className="text-white text-xl">📷</span>
-              </div>
-              <div>
-                <h3 className="text-white font-bold text-lg">SCAN</h3>
-                <p className="text-gray-400 text-sm">Sistema de validação de ingressos</p>
-              </div>
-            </div>
-
-            {/* Adiantamento */}
-            <div className="bg-black rounded-xl p-6 flex items-center gap-4">
-              <div className="bg-purple-900 p-3 rounded-full">
-                <span className="text-white text-xl">💰</span>
-              </div>
-              <div>
-                <h3 className="text-white font-bold text-lg">ADIANTAMENTO</h3>
-                <p className="text-gray-400 text-sm">Personalizado por evento</p>
-              </div>
-            </div>
-
-            {/* Inteligência Artificial */}
-            <div className="bg-black rounded-xl p-6 flex items-center gap-4 relative">
-              <div className="bg-purple-900 p-3 rounded-full">
-                <span className="text-white text-xl">🤖</span>
-              </div>
-              <div>
-                <h3 className="text-white font-bold text-lg">INTELIGÊNCIA ARTIFICIAL</h3>
-                <p className="text-gray-400 text-sm">Integração com IA</p>
-              </div>
-              <span className="absolute top-2 right-4 bg-purple-700 text-white text-xs px-2 py-0.5 rounded-full">
-                EM BREVE
-              </span>
-            </div>
-
-            {/* Revenda */}
-            <div className="bg-black rounded-xl p-6 flex items-center gap-4 relative">
-              <div className="bg-purple-900 p-3 rounded-full">
-                <span className="text-white text-xl">🔁</span>
-              </div>
-              <div>
-                <h3 className="text-white font-bold text-lg">REVENDA</h3>
-                <p className="text-gray-400 text-sm">Revenda os ingressos com segurança</p>
-              </div>
-              <span className="absolute top-2 right-4 bg-purple-700 text-white text-xs px-2 py-0.5 rounded-full">
-                EM BREVE
-              </span>
-            </div>
-          </div>
-        </section>
-
-
-
       </main>
 
+      <div className="w-full h-1 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-600"></div>
 
+      
     </div>
   );
 }
-
-export default Sobre;

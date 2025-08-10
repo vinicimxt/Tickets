@@ -10,19 +10,19 @@ function Buscar() {
     const dados = [
       {
         id: 1,
-        title: 'Guy J @ Ópera de Arame',
-        image: './dist/assets/bda.jpg',
-        location: 'Curitiba - Paraná',
-        date: '2025-09-06T16:00:00',
-        organizer: 'ODD Agency',
+        titulo: 'Guy J @ Ópera de Arame',
+        imagem: './dist/assets/bda.jpg',
+        local: 'Curitiba - Paraná',
+        data: '2025-09-06T16:00:00',
+        organizador: 'ODD Agency',
       },
       {
         id: 2,
-        title: 'Trilogia das Aventuras: Alice',
-        image: './dist/assets/bda.jpg',
-        location: 'Niterói - Rio de Janeiro',
-        date: '2025-08-08T10:00:00',
-        organizer: 'Teatro da UFF',
+        titulo: 'Trilogia das Aventuras: Alice',
+        imagem: './dist/assets/bda.jpg',
+        local: 'Niterói - Rio de Janeiro',
+        data: '2025-08-08T10:00:00',
+        organizador: 'Teatro da UFF',
       },
       // ... outros eventos
     ];
@@ -53,12 +53,13 @@ function Buscar() {
   };
 
   const eventosFiltrados = eventos.filter((evento) =>
-    evento.title.toLowerCase().includes(pesquisa.toLowerCase())
+    evento.titulo.toLowerCase().includes(pesquisa.toLowerCase())
   );
 
   return (
     <div className="flex flex-col min-h-screen bg-[#121212] text-white">
-      <main className="flex-grow p-6 max-w-7xl mx-auto">
+      <main className="flex-grow p-6 max-w-7xl mx-auto pt-[80px]">
+        {/* Aqui adicionei pt-[80px] para dar espaço no topo e evitar corte pela navbar */}
         <h1 className="text-3xl font-bold mb-6">Buscar Eventos</h1>
 
         <div className="flex gap-2 mb-6">
@@ -72,17 +73,17 @@ function Buscar() {
           <button className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">Filtrar</button>
         </div>
 
-        <div className="grid gap-90 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {eventosFiltrados.map((evento) => {
-            const data = formatarData(evento.date);
+            const data = formatarData(evento.data);
             return (
               <EventCard
                 key={evento.id}
-                image={evento.image}
-                title={evento.title}
-                location={evento.location}
-                date={data.full}
-                organizer={evento.organizer}
+                imagem={evento.imagem}
+                titulo={evento.titulo}
+                local={evento.local}
+                data={data.full}
+                organizador={evento.organizador}
                 day={data.day}
                 month={data.month}
                 weekday={data.weekday}
@@ -94,5 +95,4 @@ function Buscar() {
     </div>
   );
 }
-
 export default Buscar;
