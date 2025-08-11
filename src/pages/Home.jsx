@@ -2,7 +2,7 @@ import EventCard from '../components/EventCard';
 import { parseDateInfo } from '../utils/dateutils';
 import { useEffect, useState } from 'react';
 import FeaturedEvent from '../components/FeatureEvent';
-
+import { Link } from 'react-router-dom';
 import teste from '../../dist/assets/images/teste.webp';
 import arenarock from '../../dist/assets/images/arenarock.webp';
 import ggcon from '../../dist/assets/images/ggcon.webp';
@@ -59,7 +59,7 @@ function Home() {
                     strokeWidth={1.5}
                     stroke="currentColor"
                     aria-hidden="true"
-                    className="h-6 w-6 text-custom-400"
+                    className="h-6 w-6 text-custom-400 text-black "
                   >
                     <path
                       strokeLinecap="round"
@@ -68,7 +68,7 @@ function Home() {
                     />
                   </svg>
                   <input
-                    className="h-full w-full bg-transparent outline-none placeholder:text-text-600 text-base md:text-lg"
+                    className="h-full w-full bg-transparent text-black outline-none placeholder:text-text-600 text-base md:text-lg"
                     placeholder="Pesquise qualquer evento..."
                     // Você pode conectar a lógica de busca aqui, se desejar
                   />
@@ -113,12 +113,12 @@ function Home() {
           </section>
 
           {/* Botão ver todos */}
-          <a
+          <Link to="/buscar"
             className="bg-purple-400 w-[60%] md:w-[20%] text-center rounded-lg mx-auto py-2 font-bold hover:bg-purple-500 transition-all duration-100 cursor-pointer"
             href="/events"
           >
             Ver todos os eventos
-          </a>
+          </Link>
 
          
 

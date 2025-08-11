@@ -3,18 +3,29 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 require_once 'conexao.php';
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$q = isset($_GET['q']) ? trim($_GET['q']) : '';
 
-if ($id > 0) {
-    $stmt = $conn->prepare("SELECT id, titulo, local, data, organizador, imagem FROM eventos WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-    $evento = $resultado->fetch_assoc();
-
-    echo json_encode($evento ?: []);
-    $stmt->close();
+if ($q !== '') {
+    $stmt = $conn->prepare("SELECT id, titulo, local, data, organizador, imagem 
+                             FROM eventos 
+                             WHERE titulo LIKE ?
+                             ORDER BY data ASC");
+    $like = "%" . $q . "%";
+    $stmt->bind_param("s", $like);
 } else {
-    echo json_encode([]);
+    $stmt = $conn->prepare("SELECT id, titulo, local, data, organizador, imagem 
+                             FROM eventos 
+                             ORDER BY data ASC");
 }
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+$eventos = [];
+while ($row = $result->fetch_assoc()) {
+    $eventos[] = $row;
+}
+
+echo json_encode($eventos);
+$stmt->close();
 ?>

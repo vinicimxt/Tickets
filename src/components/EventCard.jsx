@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 function EventCard({ id, imagem, titulo, local, data, organizador, day, month, weekday }) {
   return (
-    <div className="group relative flex flex-col bg-[#1c1c28] rounded-xl overflow-hidden 
+    <div className="group relative flex flex-col bg-[#1c1c42] rounded-xl overflow-hidden 
                     shadow-lg hover:shadow-2xl transition-all duration-300 
                     hover:-translate-y-1 w-full sm:w-[320px] md:w-[360px] lg:w-[400px]">
 
       {/* Imagem */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 overflow-hidden ">
         <img
           src={imagem}
           alt={titulo}
