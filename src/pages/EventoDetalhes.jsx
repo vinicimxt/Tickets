@@ -1,153 +1,301 @@
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaMapMarkerAlt, FaCalendarAlt, FaClipboard } from "react-icons/fa";
 
 export default function EventoDetalhes() {
-  const { id } = useParams();
-  const [evento, setEvento] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const { id } = useParams();
+    const [evento, setEvento] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  const [openSetorPista, setOpenSetorPista] = useState(false);
-  const [openSetorBackstage, setOpenSetorBackstage] = useState(false);
+    const [openSetorPista, setOpenSetorPista] = useState(false);
+    const [openSetorBackstage, setOpenSetorBackstage] = useState(false);
 
-  useEffect(() => {
-    fetch(`http://localhost/Tickets/backend/listar_eventos.php?id=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setEvento(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        alert("Erro ao carregar evento");
-        setLoading(false);
-      });
-  }, [id]);
+    const [quantidades, setQuantidades] = useState({});
 
-  if (loading) return <p className="text-white p-8">Carregando...</p>;
-  if (!evento || !evento.id) return <p className="text-white p-8">Evento não encontrado.</p>;
+    const ingressosPista = [
+        {
+            nome: "2º Lote - Meia-Entrada",
+            descricao:
+                "São beneficiários: Estudantes, idosos, deficientes físicos, professores de rede pública, conforme LEI Nº 12.933 e assinantes do CURITIBACULT.",
+            preco: 220.0,
+            taxa: 33.0,
+        },
+        {
+            nome: "2º Lote - Solidário",
+            descricao:
+                "Mediante doação de 1kg de alimento não perecível. Os alimentos devem ser entregues na portaria do evento.",
+            preco: 242.0,
+            taxa: 36.3,
+        },
+        {
+            nome: "2º Lote - Inteira",
+            descricao: "",
+            preco: 440.0,
+            taxa: 66.0,
+        },
+    ];
 
-  const dataFormatada = new Date(evento.data).toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+    const ingressosBackstage = [
+        {
+            nome: "Backstage VIP",
+            descricao:
+                "Acesso à área exclusiva com visão privilegiada, banheiros e bar exclusivo.",
+            preco: 600.0,
+            taxa: 90.0,
+        },
+        {
+            nome: "Backstage Meia-Entrada",
+            descricao: "Benefício conforme LEI Nº 12.933.",
+            preco: 300.0,
+            taxa: 45.0,
+        },
+    ];
 
-  const copiarEndereco = () => {
-    navigator.clipboard.writeText(evento.local);
-    alert("Endereço copiado!");
-  };
+    useEffect(() => {
+        fetch(`http://localhost/Tickets/backend/listar_eventos.php?id=${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setEvento(data);
+                setLoading(false);
+            })
+            .catch(() => {
+                alert("Erro ao carregar evento");
+                setLoading(false);
+            });
+    }, [id]);
 
-  return (
-   <main className="bg-[#1c1c28] min-h-screen pt-16 p-4 md:p-8 text-white">
-      <div className="max-w-7xl mx-auto flex flex-col gap-6 mt-16">
-        {/* Título */}
-        <h1 className="text-4xl font-bold">{evento.titulo}</h1>
+    if (loading) return <p className="text-white p-8">Carregando...</p>;
+    if (!evento || !evento.id)
+        return <p className="text-white p-8">Evento não encontrado.</p>;
 
-        {/* Data e Local */}
-        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-gray-300">
-          <div className="flex items-center gap-2">
-            <FaCalendarAlt className="text-blue-500" />
-            <span>{dataFormatada}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaMapMarkerAlt className="text-blue-500" />
-            <span>{evento.local}</span>
-          </div>
-        </div>
+    const dataFormatada = new Date(evento.data).toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
 
-        {/* Botões abrir maps e copiar */}
-        <div className="flex gap-3">
-          <a
-            href={`https://maps.google.com/?q=${encodeURIComponent(evento.local)}`}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded flex items-center gap-2"
-          >
-            Abrir Maps
-          </a>
-          <button
-            onClick={copiarEndereco}
-            className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded flex items-center gap-2"
-          >
-            <FaClipboard /> Copiar Endereço
-          </button>
-        </div>
+    const copiarEndereco = () => {
+        navigator.clipboard.writeText(evento.local);
+        alert("Endereço copiado!");
+    };
 
-        {/* Seção principal dividida: infos à esquerda, imagem à direita */}
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Informações (organizador e ingressos) à esquerda */}
-          <div className="lg:w-1/2 flex flex-col justify-between bg-[#0d0d13] rounded-lg p-6 shadow-md">
-            <div>
-              <h2 className="text-xl font-semibold mb-6">Organizador</h2>
-              <div className="flex items-center gap-4">
-                <img
-                  src={evento.logoOrganizador || "https://via.placeholder.com/50"}
-                  alt="Logo Organizador"
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p>{evento.organizador}</p>
-                  <p className="text-gray-400 text-sm">{evento.qtdEventos || "3"} eventos</p>
-                </div>
-              </div>
+    const alterarQuantidade = (nome, delta, e) => {
+        e.stopPropagation(); // Impede que o clique feche o setor
+        setQuantidades((prev) => ({
+            ...prev,
+            [nome]: Math.max(0, (prev[nome] || 0) + delta),
+        }));
+    };
 
-              {/* Ingressos */}
-              <section className="mt-10">
-                <h3 className="text-2xl font-semibold mb-6">Ingressos</h3>
-
+    const renderIngressos = (lista) => (
+        <div className="mt-3 flex flex-col gap-3">
+            {lista.map((ingresso, index) => (
                 <div
-                  className="bg-[#1e1e2d] rounded-lg p-4 mb-4 cursor-pointer select-none"
-                  onClick={() => setOpenSetorPista(!openSetorPista)}
+                    key={index}
+                    className="bg-[#2b2b40] rounded-lg p-4 flex flex-col gap-2"
                 >
-                  <div className="flex justify-between items-center">
-                    <h4 className="text-lg font-semibold">Setor Pista</h4>
-                    <span>{openSetorPista ? "▲" : "▼"}</span>
-                  </div>
-                  {openSetorPista && <p className="mt-2 text-gray-400">Acesso ao evento</p>}
+                    <h5 className="font-semibold">{ingresso.nome}</h5>
+                    {ingresso.descricao && (
+                        <p className="text-sm text-gray-400">{ingresso.descricao}</p>
+                    )}
+                    <div className="flex justify-between items-center mt-2">
+                        <span className="text-lg font-bold text-blue-400">
+                            R$ {ingresso.preco.toFixed(2).replace(".", ",")}
+                            <span className="text-sm text-gray-400">
+                                {" "}
+                                + R$ {ingresso.taxa.toFixed(2).replace(".", ",")} (taxa)
+                            </span>
+                        </span>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={(e) => alterarQuantidade(ingresso.nome, -1, e)}
+                                className="bg-gray-600 px-2 py-1 rounded"
+                            >
+                                -
+                            </button>
+                            <span>{quantidades[ingresso.nome] || 0}</span>
+                            <button
+                                onClick={(e) => alterarQuantidade(ingresso.nome, 1, e)}
+                                className="bg-gray-600 px-2 py-1 rounded"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+
+    // Dados do carrinho
+    const itensSelecionados = Object.entries(quantidades).filter(
+        ([, qtd]) => qtd > 0
+    );
+
+    const totalQuantidade = itensSelecionados.reduce((sum, [, qtd]) => sum + qtd, 0);
+    const totalTaxa = itensSelecionados.reduce((sum, [nome, qtd]) => {
+        const ingresso =
+            ingressosPista.find((i) => i.nome === nome) ||
+            ingressosBackstage.find((i) => i.nome === nome);
+        return sum + ingresso.taxa * qtd;
+    }, 0);
+    const totalPreco = itensSelecionados.reduce((sum, [nome, qtd]) => {
+        const ingresso =
+            ingressosPista.find((i) => i.nome === nome) ||
+            ingressosBackstage.find((i) => i.nome === nome);
+        return sum + ingresso.preco * qtd;
+    }, 0);
+
+    return (
+        <main className="bg-[#1c1c28] min-h-screen pt-16 p-4 md:p-8 text-white">
+            <div className="max-w-7xl mx-auto flex flex-col gap-6 mt-16">
+                <h1 className="text-4xl font-bold">{evento.titulo}</h1>
+
+                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-gray-300">
+                    <div className="flex items-center gap-2">
+                        <FaCalendarAlt className="text-blue-500" />
+                        <span>{dataFormatada}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <FaMapMarkerAlt className="text-blue-500" />
+                        <span>{evento.local}</span>
+                    </div>
                 </div>
 
-                <div
-                  className="bg-[#1e1e2d] rounded-lg p-4 cursor-pointer select-none"
-                  onClick={() => setOpenSetorBackstage(!openSetorBackstage)}
-                >
-                  <div className="flex justify-between items-center">
-                    <h4 className="text-lg font-semibold">Setor Backstage</h4>
-                    <span>{openSetorBackstage ? "▲" : "▼"}</span>
-                  </div>
-                  {openSetorBackstage && (
-                    <p className="mt-2 text-gray-400">
-                      Área exclusiva com visão privilegiada, banheiros e bar exclusivo.
-                    </p>
-                  )}
+                <div className="flex gap-3">
+                    <a
+                        href={`https://maps.google.com/?q=${encodeURIComponent(
+                            evento.local
+                        )}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded flex items-center gap-2"
+                    >
+                        Abrir Maps
+                    </a>
+                    <button
+                        onClick={copiarEndereco}
+                        className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded flex items-center gap-2"
+                    >
+                        <FaClipboard /> Copiar Endereço
+                    </button>
                 </div>
-              </section>
+
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Coluna da esquerda - Infos e ingressos */}
+                    <div className="lg:w-2/3 flex flex-col justify-between bg-[#0d0d13] rounded-lg p-6 shadow-md">
+                        <div>
+                            <h2 className="text-xl font-semibold mb-6">Organizador</h2>
+                            <div className="flex items-center gap-4">
+                                <img
+                                    src={
+                                        evento.logoOrganizador ||
+                                        "https://via.placeholder.com/50"
+                                    }
+                                    alt="Logo Organizador"
+                                    className="w-12 h-12 rounded-full object-cover"
+                                />
+                                <div>
+                                    <p>{evento.organizador}</p>
+                                    <p className="text-gray-400 text-sm">
+                                        {evento.qtdEventos || "3"} eventos
+                                    </p>
+                                </div>
+                            </div>
+
+                            <section className="mt-10">
+                                <h3 className="text-2xl font-semibold mb-6">Ingressos</h3>
+
+                                <div
+                                    className="bg-[#1e1e2d] rounded-lg p-4 mb-4 cursor-pointer select-none"
+                                    onClick={() => setOpenSetorPista(!openSetorPista)}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <h4 className="text-lg font-semibold">Setor Pista</h4>
+                                        <span>{openSetorPista ? "▲" : "▼"}</span>
+                                    </div>
+                                    {openSetorPista && (
+                                        <>
+                                            <p className="mt-2 text-gray-400">Acesso ao evento</p>
+                                            {renderIngressos(ingressosPista)}
+                                        </>
+                                    )}
+                                </div>
+
+                                <div
+                                    className="bg-[#1e1e2d] rounded-lg p-4 cursor-pointer select-none"
+                                    onClick={() => setOpenSetorBackstage(!openSetorBackstage)}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <h4 className="text-lg font-semibold">Setor Backstage</h4>
+                                        <span>{openSetorBackstage ? "▲" : "▼"}</span>
+                                    </div>
+                                    {openSetorBackstage && (
+                                        <>
+                                            <p className="mt-2 text-gray-400">
+                                                Área exclusiva com visão privilegiada, banheiros e bar exclusivo.
+                                            </p>
+                                            {renderIngressos(ingressosBackstage)}
+                                        </>
+                                    )}
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    {/* Coluna da direita */}
+                    <div className="lg:w-1/3 flex flex-col gap-6">
+                        {/* Imagem sempre visível */}
+                        <img
+                            src={evento.imagem || "https://via.placeholder.com/400x300"}
+                            alt={evento.titulo}
+                            className="rounded-lg object-cover w-full"
+                        />
+
+                        {/* Carrinho - só aparece se tiver ingressos */}
+                        {itensSelecionados.length > 0 && (
+                            <div className="bg-[#0d0d13] rounded-lg p-6 shadow-md h-fit mt-4">
+                                <h3 className="text-xl font-semibold mb-4">Meu Carrinho</h3>
+
+                                {itensSelecionados.map(([nome, qtd]) => {
+                                    const ingresso =
+                                        ingressosPista.find((i) => i.nome === nome) ||
+                                        ingressosBackstage.find((i) => i.nome === nome);
+
+                                    return (
+                                        <div
+                                            key={nome}
+                                            className="flex justify-between items-center mb-2 text-sm"
+                                        >
+                                            <span>
+                                                {nome} x{qtd}
+                                            </span>
+                                            <span>
+                                                R$ {(ingresso.preco * qtd).toFixed(2).replace(".", ",")}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+
+                                <div className="border-t border-gray-600 pt-2 mt-2 flex justify-between">
+                                    <span>Total:</span>
+                                    <span>
+                                        R$ {(totalPreco + totalTaxa).toFixed(2).replace(".", ",")}
+                                    </span>
+                                </div>
+
+                                <button className="mt-4 w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg">
+                                    Continuar para pagamento
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                </div>
             </div>
-
-            <button className="mt-8 self-start bg-white text-black px-6 py-2 rounded hover:bg-gray-300 transition">
-              Ver Mais
-            </button>
-          </div>
-
-          {/* Imagem à direita */}
-          <div className="lg:w-1/2 rounded-lg overflow-hidden shadow-lg">
-            <img
-              src={evento.imagem}
-              alt={evento.titulo}
-              className="w-full h-auto object-cover rounded-lg"
-            />
-          </div>
-        </div>
-
-        {/* Descrição do evento */}
-        {evento.descricao && (
-          <section className="mt-12 border-t border-gray-700 pt-8 max-w-4xl">
-            <h2 className="text-2xl font-semibold mb-4">Descrição</h2>
-            <p className="text-gray-300 whitespace-pre-line leading-relaxed">{evento.descricao}</p>
-          </section>
-        )}
-      </div>
-    </main>
-  );
+        </main>
+    );
 }
