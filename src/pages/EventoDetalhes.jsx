@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaMapMarkerAlt, FaCalendarAlt, FaClipboard } from "react-icons/fa";
+import { FaMapMarkerAlt, FaCalendarAlt, FaClipboard, FaHeadphonesAlt  } from "react-icons/fa";
 
 export default function EventoDetalhes() {
     const { id } = useParams();
@@ -244,6 +244,48 @@ export default function EventoDetalhes() {
                                 </div>
                             </section>
                         </div>
+
+                        <div className="bg-[#0d0d13] text-white min-h-screen px-6 py-10">
+      <div className="max-w-5xl mx-auto">
+        {/* Título e informações */}
+        <h1 className="text-3xl font-bold mb-2">{evento.titulo}</h1>
+        <p className="text-gray-400 mb-6">
+          {new Date(evento.data).toLocaleDateString("pt-BR")} | {evento.local}
+        </p>
+
+        {/* Descrição */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-3">Descrição</h2>
+          <p className="text-gray-300 leading-relaxed">{evento.descricao}</p>
+        </section>
+
+        {/* Line-up */}
+        {evento.lineup && (
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-3">Line-up</h2>
+            <ul className="list-disc list-inside space-y-1 text-gray-300">
+              {evento.lineup.split("\n").map((artista, index) => (
+                <li key={index} className="flex items-center gap-2">
+                  <FaHeadphonesAlt className="text-green-400" /> {artista}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Mapa do Evento */}
+        {evento.imagemMapa && (
+          <section>
+            <h2 className="text-2xl font-semibold mb-3">Mapa do Evento</h2>
+            <img
+              src={evento.imagemMapa}
+              alt="Mapa do evento"
+              className="w-full rounded-lg shadow-lg"
+            />
+          </section>
+        )}
+      </div>
+    </div>
                     </div>
 
                     {/* Coluna da direita */}
@@ -294,8 +336,14 @@ export default function EventoDetalhes() {
                         )}
                     </div>
 
+
+                        
                 </div>
+
+                
             </div>
+
+            
         </main>
     );
 }

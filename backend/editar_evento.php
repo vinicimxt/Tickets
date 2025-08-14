@@ -21,7 +21,10 @@ if (
     isset($data['local']) && 
     isset($data['data']) && 
     isset($data['organizador']) && 
-    isset($data['imagem'])
+    isset($data['imagem'])&&
+    isset($data['descricao'])&&
+    isset($data['lineup'])&&
+    isset($data['imagemMapa'])
 ) {
     $id = intval($data['id']);
     $titulo = $data['titulo'];
@@ -29,9 +32,12 @@ if (
     $data_evento = $data['data'];
     $organizador = $data['organizador'];
     $imagem = $data['imagem'];
+    $descricao = $data ['descricao'];
+    $lineup = $data ['lineup'];
+    $imagemMapa = $data ['imagemMapa'];
 
-    $stmt = $conn->prepare("UPDATE eventos SET titulo = ?, local = ?, data = ?, organizador = ?, imagem = ? WHERE id = ?");
-    $stmt->bind_param("sssssi", $titulo, $local, $data_evento, $organizador, $imagem, $id);
+    $stmt = $conn->prepare("UPDATE eventos SET titulo = ?, local = ?, data = ?, organizador = ?, imagem = ?, descricao = ?, lineup = ? , imagemMapa = ? WHERE id = ?");
+    $stmt->bind_param("sssssssss", $titulo, $local, $data_evento, $organizador, $imagem,$descricao, $lineup, $imagemMapa, $id);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);

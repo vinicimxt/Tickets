@@ -96,6 +96,33 @@ function EditarEvento() {
           required
           className="p-2 rounded text-white"
         />
+        <textarea
+          type="text"
+          name="descricao"
+          value={evento.descricao || ""}
+          onChange={handleChange}
+          placeholder="Descrição do evento"
+          required
+          className="p-2 rounded text-white"
+        />
+        <textarea
+          type="text"
+          name="lineup"
+          value={evento.lineup || ""}
+          onChange={handleChange}
+          placeholder="lineup linha por linha"
+          required
+          className="p-2 rounded text-white"
+        />
+        <input
+          type="text"
+          name="imagemMapa"
+          value={evento.imagemMapa || ""}
+          onChange={handleChange}
+          placeholder="Imagem do mapa "
+          required
+          className="p-2 rounded text-white"
+        />
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"

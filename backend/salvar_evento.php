@@ -18,9 +18,12 @@ if ($data) {
     $data_evento = $data['data'];
     $organizador = $data['organizador'];
     $imagem = $data['imagem'];
+    $descricao = $data ['descricao'];
+    $lineup = $data ['lineup'];
+    $imagemMapa = $data ['imagemMapa'];
 
-    $stmt = $conn->prepare("INSERT INTO eventos (titulo, local, data, organizador, imagem) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $titulo, $local, $data_evento, $organizador, $imagem);
+    $stmt = $conn->prepare("INSERT INTO eventos (titulo, local, data, organizador, imagem, descricao, lineup, imagemMapa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssss", $titulo, $local, $data_evento, $organizador, $imagem, $descricao, $lineup, $imagemMapa);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);
