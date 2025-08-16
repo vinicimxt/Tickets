@@ -20,7 +20,7 @@ if (
     isset($data['titulo']) && 
     isset($data['local']) && 
     isset($data['data']) && 
-    isset($data['organizador']) && 
+    isset($data['organizador_id']) && 
     isset($data['imagem'])&&
     isset($data['descricao'])&&
     isset($data['lineup'])&&
@@ -30,14 +30,14 @@ if (
     $titulo = $data['titulo'];
     $local = $data['local'];
     $data_evento = $data['data'];
-    $organizador = $data['organizador'];
+    $organizador_id = $data['organizador_id'];
     $imagem = $data['imagem'];
     $descricao = $data ['descricao'];
     $lineup = $data ['lineup'];
     $imagemMapa = $data ['imagemMapa'];
 
-    $stmt = $conn->prepare("UPDATE eventos SET titulo = ?, local = ?, data = ?, organizador = ?, imagem = ?, descricao = ?, lineup = ? , imagemMapa = ? WHERE id = ?");
-    $stmt->bind_param("sssssssss", $titulo, $local, $data_evento, $organizador, $imagem,$descricao, $lineup, $imagemMapa, $id);
+    $stmt = $conn->prepare("UPDATE eventos SET titulo = ?, local = ?, data = ?, organizador_id = ?, imagem = ?, descricao = ?, lineup = ? , imagemMapa = ? WHERE id = ?");
+    $stmt->bind_param("sssssssss", $titulo, $local, $data_evento, $organizador_id, $imagem,$descricao, $lineup, $imagemMapa, $id);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);

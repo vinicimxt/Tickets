@@ -21,7 +21,7 @@ export default function Perfil() {
   if (!usuario) return null;
 
   return (
-    <div className="min-h-screen bg-[#1a1a25] text-white flex flex-col items-center pt-12">
+    <div className="min-h-screen bg-[#1a1a25] text-white flex flex-col items-center pt-24">
       {/* Avatar */}
       <div className="w-32 h-32 rounded-full bg-pink-700 flex items-center justify-center text-5xl font-bold border-4 border-fuchsia-500 shadow-lg">
         {usuario.nome.charAt(0).toUpperCase()}

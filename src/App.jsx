@@ -16,6 +16,7 @@ import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from './components/AuthContext';
 import GerenciarEventos from './pages/admin/GerenciarEventos'
 import EditarEvento from './pages/admin/EditarEvento'
+import OrganizadorDetalhes from "./pages/admin/OrganizadorDetalhes";
 
 function App() {
   const [eventos, setEventos] = useState([]);
@@ -53,6 +54,9 @@ function App() {
           path="/admin/cadastrar-evento"
           element={usuario?.tipo === 'admin' ? <CadastroEvento /> : <Navigate to="/login" />}
         />
+        <Route path="/organizador/:id" element={<OrganizadorDetalhes />} />
+
+        
 
 
 

@@ -10,9 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once 'conexao.php';
 
+
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT * FROM eventos WHERE id = ?");
+    $stmt = $conn->prepare("SELECT e.*, o.id AS organizador_id, o.nome AS organizador_nome 
+                            FROM eventos e
+                            LEFT JOIN organizadores o ON e.organizador_id = o.id
+                            WHERE e.id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $resultado = $stmt->get_result();

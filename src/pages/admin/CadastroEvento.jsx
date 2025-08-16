@@ -1,16 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 function CadastroEvento() {
   const [evento, setEvento] = useState({
     titulo: "",
     local: "",
     data: "",
-    organizador: "",
+    organizador_id: "",
     imagem: "",
     descricao: "",
     lineup: "",
     imagemMapa: ""
   });
+
+
+  const [organizadores, setOrganizadores] = useState([]);
+
+  // Buscar organizadores do backend ao carregar o componente
+  useEffect(() => {
+    fetch("http://localhost/Tickets/backend/detalhes_organizador.php")
+      .then(res => res.json())
+      .then(data => setOrganizadores(data))
+      .catch(err => console.error("Erro ao buscar organizadores:", err));
+  }, []);
 
   const handleChange = (e) => {
     setEvento({ ...evento, [e.target.name]: e.target.value });
@@ -33,7 +45,7 @@ function CadastroEvento() {
           titulo: "",
           local: "",
           data: "",
-          organizador: "",
+          organizador_id: "",
           imagem: "",
           descricao: "",
           lineup: "",
@@ -55,7 +67,20 @@ function CadastroEvento() {
         <input type="text" name="titulo" value={evento.titulo} onChange={handleChange} placeholder="Título do evento" required className="p-2 rounded text-white bg-[#1c1c28]" />
         <input type="text" name="local" value={evento.local} onChange={handleChange} placeholder="Local" required className="p-2 rounded text-white bg-[#1c1c28]" />
         <input type="datetime-local" name="data" value={evento.data} onChange={handleChange} required className="p-2 rounded text-white bg-[#1c1c28]" />
-        <input type="text" name="organizador" value={evento.organizador} onChange={handleChange} placeholder="Organizador" required className="p-2 rounded text-white bg-[#1c1c28]" />
+        <select
+          name="organizador_id"
+          value={evento.organizador_id}
+          onChange={handleChange}
+          required
+          className="p-2 rounded text-white bg-[#1c1c28]"
+        >
+          <option value="">Selecione um organizador</option>
+          {organizadores.map(org => (
+            <option key={org.id} value={org.id}>
+              {org.nome}
+            </option>
+          ))}
+        </select>
         <input type="text" name="imagem" value={evento.imagem} onChange={handleChange} placeholder="URL da imagem do evento" required className="p-2 rounded text-white bg-[#1c1c28]" />
         <textarea name="descricao" value={evento.descricao} onChange={handleChange} placeholder="Descrição do evento" rows="4" required className="p-2 rounded text-white bg-[#1c1c28]" />
         <textarea name="lineup" value={evento.lineup} onChange={handleChange} placeholder="Line-up (um por linha)" rows="3" className="p-2 rounded text-white bg-[#1c1c28]" />

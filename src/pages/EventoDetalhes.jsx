@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaMapMarkerAlt, FaCalendarAlt, FaClipboard, FaHeadphonesAlt  } from "react-icons/fa";
+import { FaMapMarkerAlt, FaCalendarAlt, FaClipboard, FaHeadphonesAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function EventoDetalhes() {
     const { id } = useParams();
@@ -51,6 +52,8 @@ export default function EventoDetalhes() {
             taxa: 45.0,
         },
     ];
+
+
 
     useEffect(() => {
         fetch(`http://localhost/Tickets/backend/listar_eventos.php?id=${id}`)
@@ -199,7 +202,7 @@ export default function EventoDetalhes() {
                                     className="w-12 h-12 rounded-full object-cover"
                                 />
                                 <div>
-                                    <p>{evento.organizador}</p>
+                                    <p>{evento.organizador_id}</p>
                                     <p className="text-gray-400 text-sm">
                                         {evento.qtdEventos || "3"} eventos
                                     </p>
@@ -246,46 +249,94 @@ export default function EventoDetalhes() {
                         </div>
 
                         <div className="bg-[#0d0d13] text-white min-h-screen px-6 py-10">
-      <div className="max-w-5xl mx-auto">
-        {/* Título e informações */}
-        <h1 className="text-3xl font-bold mb-2">{evento.titulo}</h1>
-        <p className="text-gray-400 mb-6">
-          {new Date(evento.data).toLocaleDateString("pt-BR")} | {evento.local}
-        </p>
+                            <div className="max-w-5xl mx-auto">
+                                {/* Título e informações */}
+                                <h1 className="text-3xl font-bold mb-2">{evento.titulo}</h1>
+                                <p className="text-gray-400 mb-6">
+                                    {new Date(evento.data).toLocaleDateString("pt-BR")} | {evento.local}
+                                </p>
 
-        {/* Descrição */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-3">Descrição</h2>
-          <p className="text-gray-300 leading-relaxed">{evento.descricao}</p>
-        </section>
+                                {/* Descrição */}
+                                <section className="mb-8">
+                                    <h2 className="text-2xl font-semibold mb-3">Descrição</h2>
+                                    <p className="text-gray-300 leading-relaxed">{evento.descricao}</p>
+                                </section>
 
-        {/* Line-up */}
-        {evento.lineup && (
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">Line-up</h2>
-            <ul className="list-disc list-inside space-y-1 text-gray-300">
-              {evento.lineup.split("\n").map((artista, index) => (
-                <li key={index} className="flex items-center gap-2">
-                  <FaHeadphonesAlt className="text-green-400" /> {artista}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+                                {/* Line-up */}
+                                {evento.lineup && (
+                                    <section className="mb-8">
+                                        <h2 className="text-2xl font-semibold mb-3">Line-up</h2>
+                                        <ul className="list-disc list-inside space-y-1 text-gray-300">
+                                            {evento.lineup.split("\n").map((artista, index) => (
+                                                <li key={index} className="flex items-center gap-2">
+                                                    <FaHeadphonesAlt className="text-green-400" /> {artista}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </section>
+                                )}
 
-        {/* Mapa do Evento */}
-        {evento.imagemMapa && (
-          <section>
-            <h2 className="text-2xl font-semibold mb-3">Mapa do Evento</h2>
-            <img
-              src={evento.imagemMapa}
-              alt="Mapa do evento"
-              className="w-full rounded-lg shadow-lg"
-            />
-          </section>
-        )}
-      </div>
-    </div>
+                                {/* Mapa do Evento */}
+                                {evento.imagemMapa && (
+                                    <section>
+                                        <h2 className="text-2xl font-semibold mb-3">Mapa do Evento</h2>
+                                        <img
+                                            src={evento.imagemMapa}
+                                            alt="Mapa do evento"
+                                            className="w-full rounded-lg shadow-lg"
+                                        />
+                                    </section>
+                                )}
+
+                                {/* Políticas do Evento */}
+                                <section className="mt-10">
+                                    <h2 className="text-2xl font-semibold mb-3">Políticas do Evento</h2>
+                                    <h3 className="text-lg font-semibold">Cancelamento de pedidos pagos</h3>
+                                    <p className="text-gray-400">
+                                        Cancelamentos de pedidos serão aceitos até 7 dias após a compra,
+                                        desde que a solicitação seja enviada até 48 horas antes do início do evento.
+                                    </p>
+                                </section>
+
+                                {/* Contatos */}
+                                <section className="mt-10">
+                                    <h2 className="text-2xl font-semibold mb-3">Contatos</h2>
+                                    <div className="bg-[#1e1e2d] rounded-lg p-4 flex items-center justify-between">
+                                        <div className="flex items-center gap-4">
+                                            <img
+                                                src={evento.logoOrganizador || "https://via.placeholder.com/50"}
+                                                alt="Logo Organizador"
+                                                className="w-12 h-12 rounded-full object-cover"
+                                            />
+                                            <div>
+                                                <p className="font-semibold">{evento.organizador_id}</p>
+                                                <p className="text-gray-400 text-sm">
+                                                    {evento.qtdEventos || 0} eventos
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <Link
+                                            to={`/organizador/${evento.organizador_id}`}
+                                            className="mt-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition inline-block text-white"
+                                        >
+                                            Ver mais
+                                        </Link>
+                                    </div>
+
+                                    {evento.instagram && (
+                                        <a
+                                            href={`https://instagram.com/${evento.instagram}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex items-center gap-2 mt-3 text-gray-400 hover:text-white"
+                                        >
+                                            <i className="fab fa-instagram"></i> {evento.instagram}
+                                        </a>
+                                    )}
+                                </section>
+
+                            </div>
+                        </div>
                     </div>
 
                     {/* Coluna da direita */}
@@ -337,13 +388,13 @@ export default function EventoDetalhes() {
                     </div>
 
 
-                        
+
                 </div>
 
-                
+
             </div>
 
-            
+
         </main>
     );
 }
