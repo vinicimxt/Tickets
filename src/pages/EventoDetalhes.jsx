@@ -8,7 +8,7 @@ export default function EventoDetalhes() {
     const { id } = useParams();
     const [evento, setEvento] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const [organizador, setOrganizador] = useState(null);
     const [openSetorPista, setOpenSetorPista] = useState(false);
     const [openSetorBackstage, setOpenSetorBackstage] = useState(false);
 
@@ -56,14 +56,23 @@ export default function EventoDetalhes() {
 
 
     useEffect(() => {
+        // Busca os dados do evento
         fetch(`http://localhost/Tickets/backend/listar_eventos.php?id=${id}`)
             .then((res) => res.json())
-            .then((data) => {
-                setEvento(data);
+            .then((dataEvento) => {
+                setEvento(dataEvento);
+
+                // Depois busca os dados do organizador
+                return fetch(`http://localhost/Tickets/backend/detalhes_organizador.php?id=${dataEvento.organizador_id}`);
+            })
+            .then((res) => res.json())
+            .then((dataOrganizador) => {
+                setOrganizador(dataOrganizador);
                 setLoading(false);
             })
-            .catch(() => {
-                alert("Erro ao carregar evento");
+            .catch((err) => {
+                console.error(err);
+                alert("Erro ao carregar evento ou organizador");
                 setLoading(false);
             });
     }, [id]);
@@ -194,13 +203,11 @@ export default function EventoDetalhes() {
                             <h2 className="text-xl font-semibold mb-6">Organizador</h2>
                             <div className="flex items-center gap-4">
                                 <img
-                                    src={
-                                        evento.logoOrganizador ||
-                                        "https://via.placeholder.com/50"
-                                    }
-                                    alt="Logo Organizador"
+                                    src={organizador?.logo || "/default-logo.png"}
+                                    alt={organizador?.nome || "Organizador"}
                                     className="w-12 h-12 rounded-full object-cover"
                                 />
+                                <span className="text-lg font-semibold">{organizador?.nome || "Nome do organizador"}</span>
                                 <div>
                                     <p>{evento.organizador_id}</p>
                                     <p className="text-gray-400 text-sm">
@@ -304,10 +311,11 @@ export default function EventoDetalhes() {
                                     <div className="bg-[#1e1e2d] rounded-lg p-4 flex items-center justify-between">
                                         <div className="flex items-center gap-4">
                                             <img
-                                                src={evento.logoOrganizador || "https://via.placeholder.com/50"}
-                                                alt="Logo Organizador"
+                                                src={organizador?.logo || "/default-logo.png"}
+                                                alt={organizador?.nome || "Organizador"}
                                                 className="w-12 h-12 rounded-full object-cover"
                                             />
+                                            <span className="text-lg font-semibold">{organizador?.nome || "Nome do organizador"}</span>
                                             <div>
                                                 <p className="font-semibold">{evento.organizador_id}</p>
                                                 <p className="text-gray-400 text-sm">

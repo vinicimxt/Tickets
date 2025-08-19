@@ -14,7 +14,7 @@ export default function Login() {
   const {usuario, login } = useContext(AuthContext);
 
 if (usuario) {
-    return <Navigate to={usuario.tipo === "admin" ? "/admin/dashboard" : "/perfil"} />;
+    return <Navigate to={usuario.tipo === "admin" ? "/admin/dashboard" : "/"} />;
   }
   const handleLogin = async (e) => {
     e.preventDefault();

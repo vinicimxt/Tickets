@@ -2,6 +2,7 @@
 header("Access-Control-Allow-Origin: *"); 
 header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -10,26 +11,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once 'conexao.php';
 
-
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT e.*, o.id AS organizador_id, o.nome AS organizador_nome 
-                            FROM eventos e
-                            LEFT JOIN organizadores o ON e.organizador_id = o.id
-                            WHERE e.id = ?");
+
+    $stmt = $conn->prepare("
+        SELECT e.*,
+               o.id AS organizador_id,
+               o.nome AS organizador_nome,
+               (
+                   SELECT COUNT(*) 
+                   FROM eventos ev 
+                   WHERE ev.organizador_id = e.organizador_id
+               ) AS qtdEventos
+        FROM eventos e
+        LEFT JOIN organizadores o ON e.organizador_id = o.id
+        WHERE e.id = ?
+        LIMIT 1
+    ");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $resultado = $stmt->get_result();
     $evento = $resultado->fetch_assoc();
 
-    if ($evento) {
-        echo json_encode($evento);
-    } else {
-        echo json_encode(null);
-    }
+    echo json_encode($evento ?: null);
 } else {
-    // Caso não tenha id, pode retornar todos os eventos ou erro
-    $sql = "SELECT * FROM eventos ORDER BY data ASC";
+    // Retorna todos os eventos
+    $sql = "
+        SELECT e.*,
+               o.id AS organizador_id,
+               o.nome AS organizador_nome,
+               (
+                   SELECT COUNT(*) 
+                   FROM eventos ev 
+                   WHERE ev.organizador_id = e.organizador_id
+               ) AS qtdEventos
+        FROM eventos e
+        LEFT JOIN organizadores o ON e.organizador_id = o.id
+        ORDER BY e.data ASC
+    ";
     $result = $conn->query($sql);
 
     $eventos = [];

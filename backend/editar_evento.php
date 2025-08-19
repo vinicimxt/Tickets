@@ -37,7 +37,7 @@ if (
     $imagemMapa = $data ['imagemMapa'];
 
     $stmt = $conn->prepare("UPDATE eventos SET titulo = ?, local = ?, data = ?, organizador_id = ?, imagem = ?, descricao = ?, lineup = ? , imagemMapa = ? WHERE id = ?");
-    $stmt->bind_param("sssssssss", $titulo, $local, $data_evento, $organizador_id, $imagem,$descricao, $lineup, $imagemMapa, $id);
+    $stmt->bind_param("sssisssss", $titulo, $local, $data_evento, $organizador_id, $imagem,$descricao, $lineup, $imagemMapa, $id);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);

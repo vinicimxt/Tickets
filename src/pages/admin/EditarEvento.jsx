@@ -6,6 +6,7 @@ function EditarEvento() {
   const navigate = useNavigate();
   const [evento, setEvento] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [organizadores, setOrganizadores] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost/Tickets/backend/listar_eventos.php?id=${id}`)
@@ -20,6 +21,12 @@ function EditarEvento() {
       });
   }, [id]);
 
+  useEffect(() => {
+    fetch("http://localhost/Tickets/backend/detalhes_organizador.php")
+      .then(res => res.json())
+      .then(data => setOrganizadores(data))
+      .catch(err => console.error("Erro ao carregar organizadores:", err));
+  }, []);
   const handleChange = (e) => {
     setEvento({ ...evento, [e.target.name]: e.target.value });
   };
@@ -73,20 +80,25 @@ function EditarEvento() {
         <input
           type="datetime-local"
           name="data"
-          value={evento.data ? evento.data.slice(0,16) : ""}
+          value={evento.data ? evento.data.slice(0, 16) : ""}
           onChange={handleChange}
           required
           className="p-2 rounded text-white"
         />
-        <input
-          type="text"
-          name="organizador"
-          value={evento.organizador || ""}
+        <select
+          name="organizador_id"
+          value={evento.organizador_id}
           onChange={handleChange}
-          placeholder="Organizador"
           required
-          className="p-2 rounded text-white"
-        />
+          className="p-2 rounded text-white bg-[#1c1c28]"
+        >
+          <option value="">Selecione um organizador</option>
+          {organizadores.map(org => (
+            <option key={org.id} value={org.id}>
+              {org.nome}
+            </option>
+          ))}
+        </select>
         <input
           type="text"
           name="imagem"
