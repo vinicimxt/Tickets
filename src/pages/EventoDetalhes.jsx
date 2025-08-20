@@ -162,8 +162,23 @@ export default function EventoDetalhes() {
     }, 0);
 
     return (
-        <main className="bg-[#1c1c28] min-h-screen pt-16 p-4 md:p-8 text-white">
-            <div className="max-w-7xl mx-auto flex flex-col gap-6 mt-16">
+        <main className="bg-[#1c1c28] min-h-screen pt-16 text-white overflow-x-hidden ">
+            <div className="relative ">
+                
+                <div className="relative h-90 w-full overflow-hidden">
+                    <img
+                        src={evento.imagem || "https://via.placeholder.com/1200x400"}
+                        alt={evento.titulo}
+                        className="absolute inset-0 w-full h-full object-cover scale-90 blur-xl"
+                    />
+                    {/* Degradê que morre na cor do main */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#1c1c28]/60 to-[#1c1c28]" />
+                </div>
+            </div>
+
+            {/* CONTEÚDO SOBREPOSTO À FAIXA */}
+           <div className="relative z-10 -mt-12 md:-mt-60 max-w-7xl mx-auto px-4 md:px-8">
+            
                 <h1 className="text-4xl font-bold">{evento.titulo}</h1>
 
                 <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-gray-300">
@@ -177,7 +192,7 @@ export default function EventoDetalhes() {
                     </div>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 mb-10">
                     <a
                         href={`https://maps.google.com/?q=${encodeURIComponent(
                             evento.local
@@ -198,7 +213,7 @@ export default function EventoDetalhes() {
 
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Coluna da esquerda - Infos e ingressos */}
-                    <div className="lg:w-2/3 flex flex-col justify-between bg-[#0d0d13] rounded-lg p-6 shadow-md">
+                    <div className="lg:w-2/3 flex flex-col justify-between bg-[#0d0d13] rounded-lg p-6 shadow-md mb-10">
                         <div>
                             <h2 className="text-xl font-semibold mb-6">Organizador</h2>
                             <div className="flex items-center gap-4">
@@ -216,7 +231,7 @@ export default function EventoDetalhes() {
                                 </div>
                             </div>
 
-                            <section className="mt-10">
+                            <section className="mt-10 ">
                                 <h3 className="text-2xl font-semibold mb-6">Ingressos</h3>
 
                                 <div
@@ -257,11 +272,7 @@ export default function EventoDetalhes() {
 
                         <div className="bg-[#0d0d13] text-white min-h-screen px-6 py-10">
                             <div className="max-w-5xl mx-auto">
-                                {/* Título e informações */}
-                                <h1 className="text-3xl font-bold mb-2">{evento.titulo}</h1>
-                                <p className="text-gray-400 mb-6">
-                                    {new Date(evento.data).toLocaleDateString("pt-BR")} | {evento.local}
-                                </p>
+                               
 
                                 {/* Descrição */}
                                 <section className="mb-8">
@@ -351,9 +362,9 @@ export default function EventoDetalhes() {
                     <div className="lg:w-1/3 flex flex-col gap-6">
                         {/* Imagem sempre visível */}
                         <img
-                            src={evento.imagem || "https://via.placeholder.com/400x300"}
+                            src={evento.imagem || "https://via.placeholder.com/200x300"}
                             alt={evento.titulo}
-                            className="rounded-lg object-cover w-full"
+                            className="rounded-lg object-cover w-full "
                         />
 
                         {/* Carrinho - só aparece se tiver ingressos */}
@@ -395,10 +406,7 @@ export default function EventoDetalhes() {
                         )}
                     </div>
 
-
-
                 </div>
-
 
             </div>
 
